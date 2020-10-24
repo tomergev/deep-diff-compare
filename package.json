@@ -1,0 +1,11 @@
+{
+  "name": "compare-deep",
+  "version": "1.0.0",
+  "description": "Compares and finds the difference between two javascript variables",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tomer Gev <tomergev21@gmail.com>",
+  "license": "ISC"
+}
