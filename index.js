@@ -13,7 +13,9 @@ function determineType(value) {
   if (isBoolean(value)) return 'boolean'
   if (isClass(value)) return 'class'
   if (isFunction(value)) return 'function'
+  if (_isNaN(value)) return 'NaN'
   if (isNumber(value)) return 'number'
+  if (isRegExp(value)) return 'RegExp'
   if (isString(value)) return 'string'
   if (isSymbol(value)) return 'symbol'
   if (isUndefined(value)) return 'undefined'
@@ -50,6 +52,9 @@ function isFunction(value) {
 function isMap(value) {
   return isObjectLike(value) && getTag(value) == '[object Map]'
 }
+function _isNaN(value) {
+  return isNumber(value) && value !== value
+}
 function isNull(value) {
   return value === null
 }
@@ -71,6 +76,9 @@ function isSet(value) {
 function isString(value) {
   var type = typeof value
   return type === 'string' || (type === 'object' && value != null && !isArray(value) && getTag(value) == '[object String]')
+}
+function isRegExp(value) {
+  return isObjectLike(value) && getTag(value) == '[object RegExp]'
 }
 function isSymbol(value) {
   var type = typeof value
@@ -113,6 +121,9 @@ function test() {
     function () {},
     arguments,
     new Date(),
+    /abc/,
+    /\.(gif|jpg|jpeg|tiff|png)$/i,
+    /^.{8,20}$/,
   ].forEach(function (val) {
     console.log(determineType(val))
   })
