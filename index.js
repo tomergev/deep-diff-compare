@@ -6,16 +6,35 @@ function determineType(value) {
     if (isArray(value)) return 'array'
     if (isDate(value)) return 'date'
     if (isMap(value)) return 'map'
-    if (isObjectStrict(value)) return 'object'
+    if (isObjectStrict(value)) return 'object-strict'
     if (isSet(value)) return 'set'
   }
-  // check primitive types (exculding symbol and bigint)
+  // check primitive types (exculding bigint)
   if (isBoolean(value)) return 'boolean'
   if (isClass(value)) return 'class'
   if (isFunction(value)) return 'function'
   if (_isNaN(value)) return 'NaN'
   if (isNumber(value)) return 'number'
   if (isRegExp(value)) return 'RegExp'
+  if (isString(value)) return 'string'
+  if (isSymbol(value)) return 'symbol'
+  if (isUndefined(value)) return 'undefined'
+
+  if (isObjectLike(value)) return 'object-like'
+}
+
+function determineTypeLite(value) {
+  if (isNull(value)) return 'null'
+
+  if (isObjectLike(value)) {
+    if (isArray(value)) return 'array'
+    if (isDate(value)) return 'date'
+    if (isObjectStrict(value)) return 'object-strict'
+  }
+  // check primitive types (exculding bigint)
+  if (isBoolean(value)) return 'boolean'
+  if (isFunction(value)) return 'function'
+  if (isNumber(value)) return 'number'
   if (isString(value)) return 'string'
   if (isSymbol(value)) return 'symbol'
   if (isUndefined(value)) return 'undefined'
@@ -93,7 +112,7 @@ function test() {
     constructor() {}
   }
 
-  [
+  const arr = [
     {},
     Object({}),
     new Object({}),
@@ -124,8 +143,10 @@ function test() {
     /abc/,
     /\.(gif|jpg|jpeg|tiff|png)$/i,
     /^.{8,20}$/,
-  ].forEach(function (val) {
-    console.log(determineType(val))
-  })
+  ]
+
+  const arrDetermineType = arr.map(determineType)
+  const arrDetermineTypeLite = arr.map(determineTypeLite)
+  console.log(arrDetermineType, arrDetermineTypeLite)
 }
 test()
